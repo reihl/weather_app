@@ -9,7 +9,7 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
       interval: 10s
       timeout: 5s
       retries: 5
