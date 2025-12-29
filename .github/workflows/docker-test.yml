@@ -29,6 +29,9 @@ jobs:
     - name: Check weather request logs
       run: docker logs weather-script
 
+    - name: Check rabbitmq-container logs
+      run: docker logs rabbitmq-container
+
     - name: Build Integration Tests Container
       run: docker build -t integration_tests ./tests
 
