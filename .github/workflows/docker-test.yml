@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "**" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "**" ]
 
 jobs:
   integration-test:
@@ -25,6 +25,12 @@ jobs:
 
     - name: Check Containers
       run: docker ps -a
+   
+    - name: Check weather request logs
+      run: docker logs weather-script
+
+    - name: Check rabbitmq-container logs
+      run: docker logs rabbitmq-container
 
     - name: Build Integration Tests Container
       run: docker build -t integration_tests ./tests
