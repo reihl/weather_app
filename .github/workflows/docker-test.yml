@@ -32,6 +32,9 @@ jobs:
     - name: Check rabbitmq-container logs
       run: docker logs rabbitmq-container
 
+    - name: Check docker network
+      run: docker network ls
+
     - name: Build Integration Tests Container
       run: docker build -t integration_tests ./tests
 
