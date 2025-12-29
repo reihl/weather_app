@@ -14,6 +14,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 120s
+    networks:
+      - weather-network
 
   weather-sender:
     build: ./weather-script
@@ -25,6 +27,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    networks:
+      - weather-network
 
   logstash:
     image: logstash:8.10.2
@@ -40,6 +44,8 @@ services:
       - .env
     environment:
       - "XPACK_MONITORING_ENABLED=false"
+    networks:
+      - weather-network
 
   elasticsearch:
     image: elasticsearch:8.10.2
@@ -55,6 +61,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - weather-network
 
   grafana:
     image: grafana/grafana:10.1.0
@@ -69,3 +77,9 @@ services:
     volumes:
       - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:Z
       - ./grafana/provisioning/dashboards/:/etc/grafana/provisioning/dashboards/:Z
+    networks:
+      - weather-network
+
+networks:
+  weather-network:
+    driver: bridge
