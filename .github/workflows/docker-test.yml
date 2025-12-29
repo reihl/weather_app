@@ -1,0 +1,37 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Create .env file
+      run: |
+        echo "OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }}" >> .env
+        echo "RABBITMQ_USER=guest" >> .env
+        echo "RABBITMQ_PASS=guest" >> .env
+
+    - name: Start Containers
+      run: docker compose up -d --build
+
+    - name: Check Containers
+      run: docker ps -a
+
+    - name: Build Integration Tests Container
+      run: docker build -t integration_tests ./tests
+
+    - name: Run Integration Tests
+      run: docker run --name integration_tests integration_tests
+
+    - name: Stop Containers
+      if: always()
+      run: docker compose down
