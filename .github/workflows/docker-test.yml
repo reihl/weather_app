@@ -25,6 +25,9 @@ jobs:
 
     - name: Check Containers
       run: docker ps -a
+   
+    - name: Check weather request logs
+      run: docker logs weather-script
 
     - name: Build Integration Tests Container
       run: docker build -t integration_tests ./tests
