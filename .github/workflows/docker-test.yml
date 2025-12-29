@@ -39,7 +39,7 @@ jobs:
       run: docker build -t integration_tests ./tests
 
     - name: Run Integration Tests
-      run: docker run --name integration_tests --network=weather-network integration_tests
+      run: docker run --name integration_tests --network=weather_app_weather-network integration_tests
 
     - name: Stop Containers
       if: always()
