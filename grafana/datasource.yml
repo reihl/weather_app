@@ -1,0 +1,21 @@
+apiVersion: 1
+
+datasources:
+  - name: Weather Data
+    type: elasticsearch
+    access: proxy
+    url: http://elasticsearch:9200
+    uid: weather_elastic_01
+    # uid: f3f40031-a7d9-4871-ad42-68c1164e1d71
+    
+    # In provisioning, the 'database' field is used for the Index Name
+    database: "weather-data-*"
+    
+    isDefault: true
+    
+    jsonData:
+      timeField: "@timestamp"
+      maxConcurrentShardRequests: 5
+      includeFrozen: false
+      # Explicitly setting the Elastic version is good practice for provisioning
+      esVersion: "8.0.0"
